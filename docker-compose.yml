@@ -10,6 +10,11 @@ services:
     build: ./outfit-service
     ports:
       - "5002:5002"
+  
+  wardrobe-service:
+  build: ./wardrobe-service
+  ports:
+    - "5003:5003"
 
   gateway:
     build: ./gateway
