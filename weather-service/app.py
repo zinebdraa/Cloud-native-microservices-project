@@ -2,11 +2,32 @@ from flask import Flask, jsonify
 import requests
 import os
 from datetime import datetime
+from pathlib import Path
+from dotenv import load_dotenv
+
+env_locations = [
+    Path(__file__).parent / '.env',          
+    Path(__file__).parent.parent / '.env',   
+    Path('.env'),                             
+]
+
+for env_file in env_locations:
+    if env_file.exists():
+        print(f"📁 Loading .env from: {env_file}")
+        load_dotenv(dotenv_path=env_file)
+        break
+else:
+    print("⚠️ No .env file found, checking environment variables...")
+    load_dotenv()  
 
 app = Flask(__name__)
 
 # Get your free API key from https://openweathermap.org/api
-API_KEY = "c1e5437f731b74d1a78ab5e73e2cfc28"  
+# API_KEY = "c1e5437f731b74d1a78ab5e73e2cfc28" 
+API_KEY = os.getenv('OPENWEATHER_API_KEY') 
+
+if not API_KEY:
+    raise ValueError("⚠️ OPENWEATHER_API_KEY not set! Check your .env file")
 
 def get_real_weather(city):
     """Get REAL weather data from OpenWeatherMap API"""

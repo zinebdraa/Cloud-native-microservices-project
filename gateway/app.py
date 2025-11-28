@@ -3,14 +3,24 @@ import requests
 import time
 from datetime import datetime, timedelta
 from flask_cors import CORS  
+import os
+from dotenv import load_dotenv
+from pathlib import Path
 
 app = Flask(__name__)
 CORS(app)  
 
 # Service URLs
-WEATHER_SERVICE = "http://localhost:5001"
-OUTFIT_SERVICE = "http://localhost:5002"
-WARDROBE_SERVICE = "http://localhost:5003"
+env_locations = [
+    Path(__file__).parent / '.env',          
+    Path(__file__).parent.parent / '.env',   
+    Path('.env'),                             
+]
+load_dotenv()
+
+WEATHER_SERVICE = os.getenv('WEATHER_SERVICE_URL', 'http://weather-service:5001')
+OUTFIT_SERVICE = os.getenv('OUTFIT_SERVICE_URL', 'http://outfit-service:5002')
+WARDROBE_SERVICE = os.getenv('WARDROBE_SERVICE_URL', 'http://wardrobe-service:5003')
 
 # Circuit breaker state
 service_status = {
