@@ -1,0 +1,27 @@
+# docker-compose.yml
+version: '3.8'
+services:
+  weather-service:
+    build: ./weather-service
+    ports:
+      - "5001:5001"
+
+  outfit-service:
+    build: ./outfit-service
+    ports:
+      - "5002:5002"
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - weather-service
+      - outfit-service
+
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
