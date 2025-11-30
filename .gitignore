@@ -1,4 +1,19 @@
-# .gitignore
+# # .gitignore
+# .env
+# *.pyc
+# __pycache__/
+
+# API keys and secrets
 .env
-*.pyc
+*.key
+*.pem
+
+# Kubernetes secrets
+*-secret.yaml
+
+# Docker
+Dockerfile.dev
+
+# Python
 __pycache__/
+*.pyc
